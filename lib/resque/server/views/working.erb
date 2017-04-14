@@ -25,7 +25,7 @@
       </tr>
   </table>
 
-<% else %>
+<% elsif show_workers %>
 
   <%
     workers = resque.working
@@ -67,5 +67,15 @@
       </tr>
     <% end %>
   </table>
+
+<% else %>
+
+  <script>
+    window.showWorkers = function() {
+      window.location.replace("/?show_workers=true");
+    };
+  </script>
+
+  <button onclick="window.showWorkers()">Show workers working</button>
 
 <% end %>

@@ -20,7 +20,7 @@ Resque::Server.helpers do
     @failed_per_page = if params[:class]
       failed_size
     else
-      20
+      @failed_per_page_param.to_i || 1
     end
   end
 
