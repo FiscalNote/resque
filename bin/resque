@@ -67,6 +67,25 @@ def list
   end
 end
 
+def list_working
+  puts Resque.redis.namespace
+  Resque.working.each do |worker|
+    puts "#{worker} (#{worker.state})"
+  end
+end
+
+def prune_dead_workers
+  puts Resque.redis.namespace
+  Resque.workers.each do |worker|
+      worker.prune_dead_workers
+    end
+end
+
+def check_exists(worker_id)
+  puts Resque.redis.namespace
+  puts "#{Resque::Worker.find(worker_id)}"
+end
+
 parser.parse!
 
 case ARGV[0]
@@ -74,8 +93,14 @@ when 'kill'
   kill ARGV[1]
 when 'remove'
   remove ARGV[1]
+when 'check_exists'
+  check_exists ARGV[1]
 when 'list'
   list
+when 'list_working'
+  list_working
+when 'prune_dead_workers'
+  prune_dead_workers
 else
   puts parser.help
 end
